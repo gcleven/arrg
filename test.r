@@ -1,5 +1,4 @@
 library(readr)
-# DigitalDefensesV1 <- read_csv("~/data_test_graham.csv")
 DigitalDefensesV1 <- read_csv("~/data.csv")
 
 safe_numeric_conversion <- function(x) {
@@ -38,24 +37,41 @@ sub_q_weights <- c(ignore = 1, like = 2, bookmark = 3, brief = 4, follow = 5, re
 neutral_cols <- grep("neutral*", names(DigitalDefensesV1), value=TRUE)  
 provocative_cols <- grep("provoke*", names(DigitalDefensesV1), value=TRUE)
 
-# Function to calculate engagement score
-calculate_engagement_score <- function(response_cols, weights) {
-  scores <- sapply(response_cols, function(col) {
-    sub_q_name <- gsub(".*_", "", col)  # Extract sub-question name (eg "ignore", "like", "bookmark", etc)
-    print(sub_q_name)
-    response <- as.numeric(DigitalDefensesV1[[col]])  # Convert response to numeric
-    print(response)
-    response * weights[sub_q_name]  # Multiply response by weight
-    #print(weights[sub_q_name])
-  })
-  rowMeans(scores, na.rm = TRUE)  # Avg scores for each participant
+# Function to calculate and add total engagement scores for each main question
+calculate_and_add_total_engagement_scores <- function(response_cols, weights, data_frame) {
+  # Extract unique main question names
+  main_questions <- unique(sub("_[^_]+$", "", response_cols))
+  
+  for (main_q in main_questions) {
+    # Find all columns related to this main question
+    related_cols <- grep(paste0("^", main_q, "_"), response_cols, value = TRUE)
+    
+    # Calculate engagement scores for each related column
+    scores <- sapply(related_cols, function(col) {
+      sub_q_name <- gsub(".*_", "", col)  # Extract sub-question name
+      response <- as.numeric(data_frame[[col]])  # Convert response to numeric
+      response * weights[sub_q_name]  # Multiply response by weight
+    })
+    
+    # Calculate the total score for the main question
+    main_q_total_score <- rowSums(scores, na.rm = TRUE)
+    
+    # Add the new column to the data frame
+    new_col_name <- paste(main_q, "total_engagement_score", sep = "_")
+    data_frame[[new_col_name]] <- main_q_total_score
+  }
+  return(data_frame)
 }
 
-# Calculate engagement scores for each participant
-DigitalDefensesV1$neutral_engagement_score <- calculate_engagement_score(neutral_cols, sub_q_weights)
-DigitalDefensesV1$provocative_engagement_score <- calculate_engagement_score(provocative_cols, sub_q_weights)
+# Apply the function to your data frame
+DigitalDefensesV1 <- calculate_and_add_total_engagement_scores(neutral_cols, sub_q_weights, DigitalDefensesV1)
+DigitalDefensesV1 <- calculate_and_add_total_engagement_scores(provocative_cols, sub_q_weights, DigitalDefensesV1)
 
-#print(DigitalDefensesV1$provocative_engagement_score)
+# Calculate the average of all neutral question scores
+neutral_question_scores <- grep("neutral_.*total_engagement_score$", names(DigitalDefensesV1), value = TRUE)
+DigitalDefensesV1$neutral_engagement_score <- rowMeans(DigitalDefensesV1[, neutral_question_scores], na.rm = TRUE)
 
-
+# Calculate the average of all provocative question scores
+provocative_question_scores <- grep("provoke_.*total_engagement_score$", names(DigitalDefensesV1), value = TRUE)
+DigitalDefensesV1$provocative_engagement_score <- rowMeans(DigitalDefensesV1[, provocative_question_scores], na.rm = TRUE)
 
