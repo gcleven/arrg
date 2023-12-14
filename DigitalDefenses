@@ -1,0 +1,313 @@
+---
+title: 'Digital Defenses: Ego Defense Mechanisms and Online Engagement Behaviors'
+author: "Joshua Plutchik"
+date: "Fall 2023"
+output:
+  html_document: default
+  pdf_document: 
+    latex_engine: xelatex
+subtitle: Social & Personality Psychology Lab
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE, nobreak=TRUE)
+```
+
+# Guiding Research Question
+
+> Do people with more primitive defense mechanisms spend more time on
+> the internet arguing with people?
+
+## Literature Review
+
+-   Robert Plutchik et al., theorized that specific defenses are
+    designed to manage specific emotions.
+    -   Eight defenses \<\--\> eight emotions
+    -   Defenses indicate polarity and similarity 
+    -   Diagnostic personality types may derive from particular
+        defensive styles
+    -   Individuals use utilize any combination of defense mechanisms
+-   Ego defenses are unconscious processes that manage emotional life
+    and internal conflicts. Often moderated by stress. 
+-   Recent literature has explored defense mechanisms in social media
+    and in the spread of conspiracy theories during the COVID-19
+    pandemic. 
+    -   The later found negative co-occurrence between COVID-19 and
+        youth as well as lower education level. 
+    -   Mature defense styles negatively co-occurred and immature
+        defense styles positively correlated with both general and
+        COVID-19-related conspiracy theories.
+
+## Variables
+
+IVs: Defense Mechanisms (Categorization into "primitive" or "mature"
+defense styles based on Life Style Index.), Content Exposure (Exposure
+to "provocative" and "neutral" social media content.); DV: Engagement
+(Outcome measure of simulated online engagement based on Likert
+responses to possible actions). *The focal hypothesis positively
+suggests that individuals with higher levels of primitive defense
+mechanisms ("primitive group") are more likely (increase in) to engage
+in arguments with people on the internet.* 
+
+### Defense Mechanisms
+
+-   LSI developed by Plutchik et al. (1979) to assess ego defense
+    mechanisms under the assumption that their use pertains to specific
+    affective states. 
+    -   Modified self-report questionnaire (97-item ---\> 16-item) by
+        selecting the most salient predictors of proposed ego defenses. 
+    -   For each item, respondents are asked to indicate whether or not
+        it describes them by selecting each item with "Usually true" (1)
+        or "Usually not true" (2)
+-   Categorization into "primitive" or "mature" defense styles based on
+    Life Style Index (LSI)
+    -   Participants are grouped into two categories ("primitive" or
+        "mature") based on their ego defense level as determined by
+        self-reported responses to a modified version of the Life Style
+        Index (LSI).
+    -   Defenses are theorized to be ranked in a hierarchy from
+        primitive to mature: denial; regression; projection;
+        displacement; repression; reaction formation;
+        intellectualization; and compensation.
+        -   Primitive Defenses: denial; regression; projection;
+            displacement
+        -   Mature Defenses: repression; reaction formation;
+            intellectualization; compensation
+-   Data recoded to sum scores and assign each individual to "primitive"
+    or "mature" 
+
+### Content Exposure
+
+-   Content is shown to the participants that is either "provocative" or
+    "neutral"
+-   Each participants is shown 18 items (9 neutral; 9 provocative) and
+    order is randomized. 
+    -   Within-Subjects Design
+-   Participants told that posts were all real (technically they were
+    mostly real, but technically included debrief later)
+-   Neutral posts were designed to be extremely non-opinionated,
+    mundane, and non-controversial.
+-   Provocative posts were designed to be highly polarizing, emotional,
+    and likely to induce a reaction of some kind. 
+
+### Engagement
+
+-   Experiment is a Qualtrics survey to expose participants to simulated
+    online scenarios. Participants were exposed to actual posts that
+    were made (slightly adapted) and topics were relevant/controversial
+    for all potential ideologies (questions were phrased in such a way
+    to prevent polizaration of answers). 
+    -   The relevant question here is participant choice to engage (or
+        not) with the content (degree of engagement) and the nature of
+        how they choose to engage (e.g., writing short comments, long
+        comments, liking, reposting, sharing, etc) (nature of
+        engagement). 
+-   As participants view each post, they are asked to provide
+    self-reported 5-point Likert scale ratings of how likely they are to
+    do a variety of actions with the post. 
+    -   The scale is from Extremely unlikely (1), Somewhat unlikely
+        (2),  Neither likely nor unlikely (3), Somewhat likely (4), and
+        Extremely likely (5). 
+-   Noted here from least to most engagement, actions include:
+    Completely ignore, Like (heart), Bookmark (or screenshot), Write a
+    brief comment (either agree or disagree), Follow account, Respond to
+    others in comments (either agree or disagree), Write an in-depth
+    comment (either agree or disagree), Repost (share), Report
+    post/account
+    -   Hierarchical Response rating (least to most engagement)
+    -   Completely ignore: No engagement at all.
+    -   Like (heart): Minimal engagement, shows approval or
+        acknowledgment without any effort.
+    -   Bookmark (or screenshot): A bit more engagement as it indicates
+        the user finds the content significant enough to save for later.
+    -   Write a brief comment (either agree or disagree): More
+        engagement than a like, as it involves crafting a response.
+    -   Follow account: Indicates a commitment to see more content from
+        the account, a higher level of engagement.
+    -   Respond to others in comments (either agree or disagree):
+        Indicates active participation in the discussion, which requires
+        more time and thought.
+    -   Write an in-depth comment (either agree or disagree): This shows
+        a high level of engagement, as it involves thoughtful and
+        time-consuming input.
+    -   Repost (share): Indicates endorsement and willingness to share
+        the content with one's own followers, implying a higher level of
+        engagement.
+    -   Report post/account: While negative, it's a significant form of
+        engagement as it involves taking steps to flag content for
+        review, showing a strong reaction to the content.
+
+### Mediating Variable: Psychological Stress Level
+
+-   From an evolutionary standpoint, defense mechanisms generally are
+    responses to internal perceived threat and distress. They are
+    compensatory measures. 
+    -   Potentially, primitive defense mechanisms heighten threat
+        perception in provocative scenarios, as this perceived threat
+        motivates a more active engagement as a defense response 
+-   Measured via self-report anxiety measure and optional heart rate
+    measurements. 
+    -   Participants asked to please rate their current level of anxiety
+        pre and post experiment on a scale from not anxious at all to
+        extremely anxious (5-point likert)
+-   Note: excluded from subsequent analysis as data may have been flawed
+    in collection (issue with scale)
+
+### Demographics
+
+-   Age
+-   Gender
+-   Educational background
+
+# Analysis
+
+### Load Packages & Import Data
+
+```{r load-packages, message=FALSE}
+library(stats)
+library(psych)
+library(tidyverse)
+library(Hmisc)
+library(ggplot2)
+library(dplyr)
+library(viridis)
+library(afex)
+library(broom)
+library(knitr)
+library(readr)
+library(tidyr)
+library(rstatix)
+```
+
+### Import Data
+
+```{r import-data}
+safe_numeric_conversion <- function(x) {
+  converted <- suppressWarnings(as.numeric(x))
+  ifelse(is.na(converted), x, converted)
+}
+
+DDV2 <- read.csv("~/R STUDIO FILES/Digital Defenses/DDV2.csv", header = TRUE)
+
+```
+
+## Defense Mechanisms
+
+```{r defense-mechanisms}
+#define columns
+primitive_cols <- c("LSI_denial1", "LSI_denial2", "LSI_displacement1", "LSI_displacement2", "LSI_regression1", "LSI_regression2", "LSI_projection1", "LSI_projection2")
+mature_cols <- c("LSI_intellectualization1", "LSI_intellectualization2", "LSI_compensation1", "LSI_compensation2", "LSI_reactionformation1", "LSI_reactionformation2", "LSI_repression1", "LSI_repression2")
+
+#Defense intensity calculation
+DDV2$primitive_intensity <- rowSums(DDV2[, primitive_cols])
+DDV2$mature_intensity <- rowSums(DDV2[, mature_cols])
+
+#Defense type define
+DDV2$defense_type <- ifelse(DDV2$primitive_intensity > DDV2$mature_intensity, "primitive", "mature")
+```
+
+## Composite Engagement
+
+```{r composite-engagement}
+#Consider degree of engagement and nature of engagement (likert scale 5 pts), noting response hierarchy. 1. each actin will have a base score based on its position in the heirarchy of engagement (eg. ignore=0, like=1 ... report=8). For each action, participant likelihood of engagement is ranked from 1 unlikely to 5 likely. So for each action, multiply participant base score by likelihood of engagement. Sum likelihood value x question score. 
+# Define the sub-question weights
+sub_q_weights <- c(ignore = 1, like = 2, bookmark = 3, brief = 4, follow = 5, respond = 6, indepth = 7, repost = 8, report = 9)
+
+# Identify the columns for neutral and provocative questions
+neutral_cols <- grep("neutral*", names(DDV2), value=TRUE)  
+provocative_cols <- grep("provoke*", names(DDV2), value=TRUE)
+
+# Function to calculate and add total engagement scores for each main question
+calculate_and_add_total_engagement_scores <- function(response_cols, weights, data_frame) {
+  # Extract unique main question names
+  main_questions <- unique(sub("_[^_]+$", "", response_cols))
+  
+  for (main_q in main_questions) {
+    # Find all columns related to this main question
+    related_cols <- grep(paste0("^", main_q, "_"), response_cols, value = TRUE)
+    
+    # Calculate engagement scores for each related column
+    scores <- sapply(related_cols, function(col) {
+      sub_q_name <- gsub(".*_", "", col)  # Extract sub-question name
+      response <- as.numeric(data_frame[[col]])  # Convert response to numeric
+      response * weights[sub_q_name]  # Multiply response by weight
+    })
+    
+    # Calculate the total score for the main question
+    main_q_total_score <- rowSums(scores, na.rm = TRUE)
+    
+    # Add the new column to the data frame
+    new_col_name <- paste(main_q, "total_engagement_score", sep = "_")
+    data_frame[[new_col_name]] <- main_q_total_score
+  }
+  return(data_frame)
+}
+
+# Apply the function to your data frame
+DDV2 <- calculate_and_add_total_engagement_scores(neutral_cols, sub_q_weights, DDV2)
+DDV2 <- calculate_and_add_total_engagement_scores(provocative_cols, sub_q_weights, DDV2)
+
+# Calculate the average of all neutral question scores
+response_neutral <- grep("neutral_.*total_engagement_score$", names(DDV2), value = TRUE)
+DDV2$response_neutral <- rowMeans(DDV2[, neutral_question_scores], na.rm = TRUE)
+
+# Calculate the average of all provocative question scores
+respoonse_provocative <- grep("provoke_.*total_engagement_score$", names(DDV2), value = TRUE)
+DDV2$response_provocative <- rowMeans(DDV2[, provocative_question_scores], na.rm = TRUE)
+
+#print engagement scores
+DDV2$response_provocative
+DDV2$response_neutral
+```
+
+## Block
+
+```{r BLOCK-NAME-HERE}
+
+
+```
+
+## ANOVA
+
+```{r ANOVA}
+#Reshape data long format
+DDV2_long <- DDV2 %>%
+   pivot_longer(cols = c(response_provocative, response_neutral), names_to = "condition",
+               values_to = "response", names_prefix = "response_") %>%
+  convert_as_factor(ResponseId, condition) %>%
+  arrange(ResponseId, defense_type, condition, response)
+str(DDV2_long)
+
+DDV2_long$ResponseId
+
+#Repeated measures ANOVA
+
+# subject, provocative_condition_score, neutral_condition_score
+
+contrasts(DDV2_long$condition) <- "contr.sum"
+DDV2_ANOVA <- aov_car(response ~ defense_type*condition + Error(ResponseId/condition), es = "pes", anova_table = list(es = "pes",correction="none"), data= DDV2_long)
+DDV2_ANOVA
+```
+
+## Block
+
+```{r BLOCK-NAME-HERE}
+
+
+```
+
+## Block
+
+```{r BLOCK-NAME-HERE}
+
+
+```
+
+## Block
+
+```{r BLOCK-NAME-HERE}
+
+
+```
